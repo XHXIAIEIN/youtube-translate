@@ -1,0 +1,4 @@
+faster-whisper>=1.0
+numpy
+requests
+yt-dlp
