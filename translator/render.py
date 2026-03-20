@@ -23,7 +23,10 @@ def render_loop(out_q):
         interim_rows = 0
 
     def calc_rows(text, ts):
-        cols = os.get_terminal_size().columns
+        try:
+            cols = os.get_terminal_size().columns
+        except OSError:
+            cols = 80
         return max(1, -(-(len(text) + len(ts) + 1) // cols))
 
     def print_en(text, ts):
@@ -92,5 +95,8 @@ def print_header(title, channel, is_live, url, provider, model, chunk, srt_path)
     ts = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     _w(f"{GRAY}whisper small · {provider}/{model} · {chunk}s · {ts}{RESET}\n")
     _w(f"{GRAY}{srt_path}{RESET}\n")
-    cols = os.get_terminal_size().columns
+    try:
+        cols = os.get_terminal_size().columns
+    except OSError:
+        cols = 80
     _w(f"{DIM}{'─' * cols}{RESET}\n\n")
